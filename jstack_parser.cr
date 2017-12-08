@@ -1,8 +1,10 @@
 all = [] of Array(String)
 
 if ARGV.size != 2 || ARGV.includes?("-h") || ARGV.includes?("--help")
-  puts  "syntax: <jstack_filename> <criteria>
-  criteria options: size > X, exclude ThisString"
+  puts  "syntax: #{PROGRAM_NAME} <jstack_filename> <criteria> (only one supported for now)
+    criteria options: 
+      size > X
+      exclude ThisString"
   exit 1
 end
 
@@ -16,7 +18,7 @@ stack.each_line{|l|
     all << current.clone
     current.clear # !
   end
-  current << l
+  current << l.strip
 }
 all = all[1..-1] # ignore first which is the header
 

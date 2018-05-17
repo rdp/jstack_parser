@@ -3,8 +3,8 @@ all = [] of Array(String)
 if ARGV.size != 2 || ARGV.includes?("-h") || ARGV.includes?("--help")
   puts  "syntax: #{PROGRAM_NAME} <jstack_filename> <criteria> (only one supported for now)
     criteria options: 
-      size > X
-      exclude ThisString"
+      \"size > X\"
+      \"exclude ThisString\""
   exit 1
 end
 

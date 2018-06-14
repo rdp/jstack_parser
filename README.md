@@ -39,6 +39,18 @@ then your equivalent of
 
 cc 'jstack_parser.o' -o 'jstack_parser'  -rdynamic  -lpcre -lgc -lpthread ./crystal/src/ext/libcrystal.a -levent -lrt -ldl -L/usr/lib -L/usr/local/lib -L ./bdwgc/.libs
 
+=== all static redistributable ===
+sudo yum install automake
+sudo yum install libtool
+download pcre (not pcre2) 
+./configure --enable-static --disable-shared --enable-utf8 && make
+
+download libevent2 
+https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz
+./configure --enable-static --disable-shared && make
+
+cc 'jstack_parser.o' -o 'jstack_parser'  -rdynamic  -lpcre -lgc -lpthread ./crystal/src/ext/libcrystal.a -levent -lrt -ldl -L/usr/lib -L/usr/local/lib -L ./bdwgc/.libs -L ./pcre-8.42/.libs -L ./libevent-2.1.8-stable/.libs
+
 ==========TODO ==========
 
 include AName, thread state

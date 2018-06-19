@@ -1,7 +1,7 @@
 all = [] of Array(String)
 
 if ARGV.size < 1 || ARGV.includes?("-h") || ARGV.includes?("--help")
-  puts  "syntax: #{PROGRAM_NAME} <jstack_filename or - for stdin> <criteria>
+  puts  "syntax: #{PROGRAM_NAME} <jstack_filename or - for stdin> <criteria> (<criteria>...)
     criteria options: 
       \"size > X\"
       \"exclude ThisString\"
@@ -13,10 +13,7 @@ end
 criteria = ARGV[1..-1]
 
 if ARGV[0] == "-"
-  stack = ""
-  STDIN.each_line do |line|
-    stack += line
-  end
+  stack = STDIN.gets_to_end
 else
   stack = File.read(ARGV[0])
 end

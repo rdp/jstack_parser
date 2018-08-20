@@ -1,10 +1,11 @@
 all = [] of Array(String)
 
-if ARGV.size < 1 || ARGV.includes?("-h") || ARGV.includes?("--help")
+if ARGV.size < 2 || ARGV.includes?("-h") || ARGV.includes?("--help")
   puts  "syntax: #{PROGRAM_NAME} <jstack_filename or - for stdin> <criteria> (<criteria>...)
     criteria options: 
       \"size > X\"
       \"exclude ThisString\"
+      \"include ThisString\"
       ex: #{PROGRAM_NAME} \"size > 3\" \"exclude DontWant\"
 "
   exit 1
@@ -42,6 +43,12 @@ if criterion =~ /exclude (\S+)/ # \S is non whitespace
   exclude_this = $1
   puts "excluding #{exclude_this}"
   all = all.reject{|stack| stack.join.includes?(exclude_this) }
+end 
+
+if criterion =~ /include (\S+)/ # \S is non whitespace
+  include_this = $1
+  puts "including only those with #{include_this}"
+  all = all.reject{|stack| !stack.join.includes?(include_this) }
 end 
 
 }

@@ -11,11 +11,13 @@ $ jstack_parser stack_trace_filename "exclude ClassName"
 # exclude traces from a particular class, or use a methodname, package, etc.
 
 How to use: git clone it, install 'crystal language' compiler, run
+
 $ crystal build jstack_parser.cr
 
 then run it from there.  Enjoy!  Feature requests welcome, file as issues.
 
 ============ to deploy to an "old OS linux box" with no crystal compiler available: ===============
+Cross compile!
 
 crystal build jstack_parser.cr  --cross-compile --target "x86_64-unknown-linux-gnu" # on new box with crystal
 build libcrystal.a on target box:
@@ -35,11 +37,17 @@ sudo yum install automake
 sudo yum install libtool
 install libgc via these instructions: https://github.com/crystal-lang/crystal/wiki/All-required-libraries
 
-then your equivalent of
+then your equivalent of this linking line:
 
 cc 'jstack_parser.o' -o 'jstack_parser'  -rdynamic  -lpcre -lgc -lpthread ./crystal/src/ext/libcrystal.a -levent -lrt -ldl -L/usr/lib -L/usr/local/lib -L ./bdwgc/.libs
 
 === all static redistributable ===
+
+Unfortunately with "yum install xxx" it creates a non distributable executable because it depends on some shared time load time libraries.  
+So if you need to avoid that, instead of
+yum install "xx" 
+build them locally all static, like this:
+
 sudo yum install automake
 sudo yum install libtool
 download pcre (not pcre2) 
@@ -49,8 +57,10 @@ download libevent2
 https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz
 ./configure --enable-static --disable-shared && make
 
+and link like this:
+
 cc 'jstack_parser.o' -o 'jstack_parser'  -rdynamic  -lpcre -lgc -lpthread ./crystal/src/ext/libcrystal.a -levent -lrt -ldl -L/usr/lib -L/usr/local/lib -L ./bdwgc/.libs -L ./pcre-8.42/.libs -L ./libevent-2.1.8-stable/.libs
 
 ==========TODO ==========
 
-include AName, thread state
+thread state
